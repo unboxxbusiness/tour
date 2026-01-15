@@ -25,7 +25,7 @@ export default function TopBar() {
       <div className="flex justify-between items-center max-w-screen-2xl mx-auto">
         <div className="flex items-center gap-2 text-white">
           <Building2 className="h-8 w-8" />
-          <span className="text-xl font-bold">SRM Virtual Tour</span>
+          <span className="text-xl font-bold">360 Virtual Tour</span>
         </div>
         <nav className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => (
