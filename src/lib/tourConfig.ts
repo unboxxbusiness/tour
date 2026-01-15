@@ -27,10 +27,15 @@ const SceneSchema = z.object({
   initialPitch: z.number(),
   hotspots: z.array(HotspotSchema),
   infoSpots: z.array(InfoSpotSchema).optional(),
+  sceneMapPosition: z.object({
+    x: z.number(),
+    y: z.number(),
+  }).optional(),
 });
 
 const TourConfigSchema = z.object({
   scenes: z.array(SceneSchema),
+  floorplan: z.string().optional(),
 });
 
 export type Hotspot = z.infer<typeof HotspotSchema>;

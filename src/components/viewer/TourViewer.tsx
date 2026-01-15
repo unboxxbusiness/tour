@@ -8,8 +8,9 @@ import InfoModal, { InfoModalProps } from "../InfoModal";
 import Controls from "./Controls";
 import TopBar from "./TopBar";
 import ScenePanel from "./ScenePanel";
-import { Menu } from "lucide-react";
+import { Menu, Map } from "lucide-react";
 import { Button } from "../ui/button";
+import Minimap from "./Minimap";
 
 // Dynamically import Pannellum to ensure it's only client-side
 const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannellum), {
@@ -37,6 +38,7 @@ export default function TourViewer() {
   const [modalInfo, setModalInfo] = useState<Omit<InfoModalProps, 'isOpen' | 'onClose'> | null>(null);
   const [isAutoRotating, setIsAutoRotating] = useState(false);
   const [isScenePanelOpen, setIsScenePanelOpen] = useState(false);
+  const [isMinimapOpen, setIsMinimapOpen] = useState(false);
   
   const pannellumRef = useRef<PannellumType>(null);
   const lastHfov = useRef<number | null>(null);
@@ -177,15 +179,28 @@ export default function TourViewer() {
       />
       <div className="relative h-full w-full flex-1 overflow-hidden">
           <TopBar brandName="Virtual Tour" sceneTitle={currentScene.title}>
-            <Button 
-                variant="ghost" 
-                size="icon" 
-                className="text-white hover:bg-white/20 hover:text-white lg:hidden"
-                onClick={() => setIsScenePanelOpen(true)}
-                aria-label="Open scene list"
-            >
-                <Menu />
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="text-white hover:bg-white/20 hover:text-white lg:hidden"
+                  onClick={() => setIsScenePanelOpen(true)}
+                  aria-label="Open scene list"
+              >
+                  <Menu />
+              </Button>
+              {tourConfig.floorplan && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white hover:bg-white/20 hover:text-white"
+                  onClick={() => setIsMinimapOpen(!isMinimapOpen)}
+                  aria-label="Toggle minimap"
+                >
+                  <Map />
+                </Button>
+              )}
+            </div>
           </TopBar>
           <div className={`h-full w-full transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
               <Pannellum
@@ -210,6 +225,16 @@ export default function TourViewer() {
               onToggleAutoRotate={handleToggleAutoRotate}
               isAutoRotating={isAutoRotating}
           />
+        {tourConfig.floorplan && (
+            <Minimap 
+                floorplanSrc={tourConfig.floorplan}
+                scenes={tourConfig.scenes}
+                currentSceneId={currentSceneId}
+                onSceneSelect={switchScene}
+                isOpen={isMinimapOpen}
+                onClose={() => setIsMinimapOpen(false)}
+            />
+        )}
         {modalInfo && (
             <InfoModal 
               isOpen={!!modalInfo}

@@ -1,19 +1,21 @@
 {
+  "floorplan": "/tour/floorplan.png",
   "scenes": [
     {
       "id": "gate",
       "title": "University Gate",
       "src": "/tour/scenes/gate.jpg",
-      "thumb": "/tour/thumbs/gate.jpg",
-      "initialYaw": -5,
-      "initialPitch": -1,
+      "thumb": "/tour/thumbs/gate-thumb.jpg",
+      "initialYaw": 0,
+      "initialPitch": 0,
+      "sceneMapPosition": { "x": 10, "y": 50 },
       "hotspots": [
         {
           "id": "gate-to-library",
-          "pitch": -2,
-          "yaw": 105,
+          "pitch": 0,
+          "yaw": 90,
           "targetSceneId": "library",
-          "label": "Go to Library"
+          "label": "To the Library"
         }
       ],
       "infoSpots": [
@@ -21,8 +23,9 @@
           "id": "gate-info",
           "pitch": 10,
           "yaw": -30,
-          "title": "Main Entrance",
-          "description": "This is the main entrance to the university, built in 1902."
+          "title": "Welcome to the University",
+          "description": "This is the main gate of our historic university, founded in 1888. It serves as the primary entrance for students, faculty, and visitors.",
+          "image": "/tour/infospots/gate-info.jpg"
         }
       ]
     },
@@ -30,33 +33,33 @@
       "id": "library",
       "title": "Main Library",
       "src": "/tour/scenes/library.jpg",
-      "thumb": "/tour/thumbs/library.jpg",
-      "initialYaw": 10,
-      "initialPitch": -5,
+      "thumb": "/tour/thumbs/library-thumb.jpg",
+      "initialYaw": -90,
+      "initialPitch": 0,
+      "sceneMapPosition": { "x": 45, "y": 30 },
       "hotspots": [
         {
           "id": "library-to-gate",
           "pitch": 0,
-          "yaw": -160,
+          "yaw": -170,
           "targetSceneId": "gate",
-          "label": "Back to Gate"
+          "label": "Back to the Gate"
         },
         {
           "id": "library-to-auditorium",
-          "pitch": -5,
-          "yaw": 20,
+          "pitch": 0,
+          "yaw": 0,
           "targetSceneId": "auditorium",
-          "label": "Go to Auditorium"
+          "label": "To the Auditorium"
         }
       ],
       "infoSpots": [
         {
-          "id": "library-info",
-          "pitch": 20,
-          "yaw": 90,
-          "title": "Rare Books Collection",
-          "description": "The east wing houses a collection of over 50,000 rare manuscripts.",
-          "image": "/tour/infospots/rare-books.jpg"
+            "id": "library-info",
+            "pitch": 20,
+            "yaw": -90,
+            "title": "The Grand Library",
+            "description": "Our library houses over a million volumes and provides a quiet space for study and research. It features classic architecture and modern amenities."
         }
       ]
     },
@@ -64,16 +67,17 @@
       "id": "auditorium",
       "title": "Grand Auditorium",
       "src": "/tour/scenes/auditorium.jpg",
-      "thumb": "/tour/thumbs/auditorium.jpg",
-      "initialYaw": -20,
-      "initialPitch": -10,
+      "thumb": "/tour/thumbs/auditorium-thumb.jpg",
+      "initialYaw": 180,
+      "initialPitch": -5,
+      "sceneMapPosition": { "x": 80, "y": 70 },
       "hotspots": [
         {
           "id": "auditorium-to-library",
-          "pitch": -2,
+          "pitch": 0,
           "yaw": -90,
           "targetSceneId": "library",
-          "label": "Back to Library"
+          "label": "Back to the Library"
         }
       ],
       "infoSpots": []
