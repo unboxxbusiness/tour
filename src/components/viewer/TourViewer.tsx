@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { tourConfig, Hotspot as HotspotType, InfoSpot as InfoSpotType } from "@/lib/tourConfig";
 import type { Pannellum as PannellumType } from "pannellum-react";
@@ -42,8 +42,9 @@ export default function TourViewer() {
     
     setIsTransitioning(true);
     if (pannellumRef.current) {
-        lastHfov.current = pannellumRef.current.getHfov();
-        pannellumRef.current.stopAutoRotate();
+        const viewer = (pannellumRef.current as any).getViewer();
+        lastHfov.current = viewer.getHfov();
+        viewer.stopAutoRotate();
         setIsAutoRotating(false);
     }
     
@@ -102,7 +103,7 @@ export default function TourViewer() {
     }
   }), [handleInfoSpotClick]);
 
-  useMemo(() => {
+  useEffect(() => {
     const hotspots = currentScene.hotspots.map(createHotspot);
     const infoSpots = (currentScene.infoSpots || []).map(createInfoSpot);
 
@@ -126,29 +127,32 @@ export default function TourViewer() {
 
   const handleZoom = (direction: 'in' | 'out') => {
     if (!pannellumRef.current) return;
-    const currentHfov = pannellumRef.current.getHfov();
+    const viewer = (pannellumRef.current as any).getViewer();
+    const currentHfov = viewer.getHfov();
     const newHfov = direction === 'in' ? currentHfov - 10 : currentHfov + 10;
-    pannellumRef.current.setHfov(newHfov);
+    viewer.setHfov(newHfov);
   };
 
   const handleReset = () => {
     if (!pannellumRef.current) return;
-    pannellumRef.current.setPitch(currentScene.initialPitch);
-    pannellumRef.current.setYaw(currentScene.initialYaw);
-    pannellumRef.current.setHfov(100);
+    const viewer = (pannellumRef.current as any).getViewer();
+    viewer.setPitch(currentScene.initialPitch);
+    viewer.setYaw(currentScene.initialYaw);
+    viewer.setHfov(100);
   };
 
   const handleToggleFullscreen = () => {
     if (!pannellumRef.current) return;
-    pannellumRef.current.toggleFullscreen();
+    (pannellumRef.current as any).getViewer().toggleFullscreen();
   };
 
   const handleToggleAutoRotate = () => {
     if (!pannellumRef.current) return;
+    const viewer = (pannellumRef.current as any).getViewer();
     if (isAutoRotating) {
-      pannellumRef.current.stopAutoRotate();
+      viewer.stopAutoRotate();
     } else {
-      pannellumRef.current.startAutoRotate(-2);
+      viewer.startAutoRotate(-2);
     }
     setIsAutoRotating(!isAutoRotating);
   };
