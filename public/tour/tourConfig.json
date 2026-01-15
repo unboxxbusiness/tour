@@ -1,28 +1,150 @@
+
 {
+  "floorplan": "/tour/floorplan.png",
   "scenes": [
     {
-      "id": "university-gate",
-      "title": "University Gate",
-      "src": "https://picsum.photos/seed/1/2048/1024",
-      "thumb": "https://picsum.photos/seed/1/200/100",
+      "id": "main-entrance",
+      "title": "Main Entrance",
+      "src": "https://picsum.photos/seed/uni-main/1920/1080",
+      "thumb": "https://picsum.photos/seed/uni-main-thumb/200/100",
       "initialYaw": 0,
       "initialPitch": 0,
-      "hotspots": [],
+      "hotspots": [
+        {
+          "id": "entrance-to-library",
+          "pitch": 0,
+          "yaw": -30,
+          "targetSceneId": "library",
+          "label": "To the Library"
+        },
+        {
+          "id": "entrance-to-student-center",
+          "pitch": -5,
+          "yaw": 45,
+          "targetSceneId": "student-center",
+          "label": "To the Student Center"
+        }
+      ],
       "infoSpots": [
         {
-          "id": "gate-info",
-          "pitch": -10,
-          "yaw": 0,
-          "title": "Main Entrance",
-          "description": "This is the main entrance to the university campus, welcoming students, faculty, and visitors.",
-          "image": "https://picsum.photos/seed/info1/400/300"
+          "id": "founder-statue",
+          "pitch": -15,
+          "yaw": 10,
+          "title": "Founder's Statue",
+          "description": "This statue commemorates our university's founder, established in 1888. It's a popular meeting spot for students.",
+          "image": "https://picsum.photos/seed/statue/400/300"
         }
       ],
       "sceneMapPosition": {
         "x": 50,
-        "y": 80
+        "y": 90
+      }
+    },
+    {
+      "id": "library",
+      "title": "University Library",
+      "src": "https://picsum.photos/seed/uni-library/1920/1080",
+      "thumb": "https://picsum.photos/seed/uni-library-thumb/200/100",
+      "initialYaw": 10,
+      "initialPitch": -5,
+      "hotspots": [
+        {
+          "id": "library-to-entrance",
+          "pitch": 0,
+          "yaw": 180,
+          "targetSceneId": "main-entrance",
+          "label": "Back to Main Entrance"
+        },
+        {
+          "id": "library-to-lecture-hall",
+          "pitch": -2,
+          "yaw": 90,
+          "targetSceneId": "lecture-hall",
+          "label": "To the Lecture Hall"
+        }
+      ],
+      "infoSpots": [
+        {
+          "id": "study-pods",
+          "pitch": 5,
+          "yaw": -20,
+          "title": "Quiet Study Pods",
+          "description": "These modern study pods provide a quiet and focused environment for individual work. They can be booked online.",
+          "image": "https://picsum.photos/seed/studypods/400/300"
+        }
+      ],
+      "sceneMapPosition": {
+        "x": 25,
+        "y": 50
+      }
+    },
+    {
+      "id": "lecture-hall",
+      "title": "Lecture Hall B01",
+      "src": "https://picsum.photos/seed/uni-lecture/1920/1080",
+      "thumb": "https://picsum.photos/seed/uni-lecture-thumb/200/100",
+      "initialYaw": -90,
+      "initialPitch": 0,
+      "hotspots": [
+        {
+          "id": "lecture-to-library",
+          "pitch": 0,
+          "yaw": -170,
+          "targetSceneId": "library",
+          "label": "Exit to Library"
+        }
+      ],
+      "infoSpots": [
+        {
+            "id": "projector-info",
+            "pitch": 20,
+            "yaw": -90,
+            "title": "4K Laser Projector",
+            "description": "This hall is equipped with a state-of-the-art 4K laser projection system and surround sound for an immersive learning experience."
+        }
+      ],
+      "sceneMapPosition": {
+        "x": 20,
+        "y": 20
+      }
+    },
+    {
+      "id": "student-center",
+      "title": "Student Center",
+      "src": "https://picsum.photos/seed/uni-student/1920/1080",
+      "thumb": "https://picsum.photos/seed/uni-student-thumb/200/100",
+      "initialYaw": 30,
+      "initialPitch": 0,
+      "hotspots": [
+        {
+          "id": "student-center-to-entrance",
+          "pitch": -5,
+          "yaw": -150,
+          "targetSceneId": "main-entrance",
+          "label": "Exit to Main Entrance"
+        }
+      ],
+      "infoSpots": [
+        {
+          "id": "cafe-info",
+          "pitch": -10,
+          "yaw": 20,
+          "title": "Campus Cafe",
+          "description": "Open from 8 AM to 8 PM, the cafe serves a variety of coffee, snacks, and light meals. It's the social hub of the campus.",
+          "image": "https://picsum.photos/seed/cafe/400/300"
+        },
+        {
+            "id": "events-board",
+            "pitch": 5,
+            "yaw": 80,
+            "title": "Events Board",
+            "description": "Check here for the latest student club activities, guest lectures, and campus events."
+        }
+      ],
+      "sceneMapPosition": {
+        "x": 75,
+        "y": 50
       }
     }
-  ],
-  "floorplan": "https://picsum.photos/seed/floorplan/800/600"
+  ]
 }
