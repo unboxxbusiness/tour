@@ -86,3 +86,18 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+.pnlm-fade-enter {
+    opacity: 0;
+}
+.pnlm-fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms;
+}
+.pnlm-fade-exit {
+    opacity: 1;
+}
+.pnlm-fade-exit-active {
+    opacity: 0;
+    transition: opacity 500ms;
+}
