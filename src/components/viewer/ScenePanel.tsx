@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Input } from "@/components/ui/input";
@@ -68,9 +68,20 @@ function SceneList({ scenes, currentSceneId, onSceneSelect }: Omit<ScenePanelPro
 }
 
 export default function ScenePanel(props: ScenePanelProps) {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIsMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkIsMobile();
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
+  }, []);
+
 
   // For Mobile: Use a Sheet component
-  if (typeof window !== 'undefined' && window.innerWidth < 1024) {
+  if (isMobile) {
     return (
         <Sheet open={props.isOpen} onOpenChange={props.onClose}>
             <SheetContent side="left" className="p-0 border-0 w-80 bg-transparent">
