@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Scene } from "@/lib/tourConfig";
 import { cn } from "@/lib/utils";
 import { prefetchImage } from "./TourViewer";
-import { Sheet, SheetContent } from "../ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 
 interface ScenePanelProps {
   scenes: Scene[];
@@ -85,6 +85,9 @@ export default function ScenePanel(props: ScenePanelProps) {
     return (
         <Sheet open={props.isOpen} onOpenChange={props.onClose}>
             <SheetContent side="left" className="p-0 border-0 w-80 bg-transparent">
+                <SheetHeader className="sr-only">
+                    <SheetTitle>Scene List</SheetTitle>
+                </SheetHeader>
                 <SceneList {...props} />
             </SheetContent>
         </Sheet>
