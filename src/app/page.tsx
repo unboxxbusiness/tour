@@ -1,4 +1,3 @@
-import ScenePanel from "@/components/viewer/ScenePanel";
 import TourViewer from "@/components/viewer/TourViewer";
 
 export default function Home() {

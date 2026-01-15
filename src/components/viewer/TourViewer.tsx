@@ -8,11 +8,9 @@ import InfoModal, { InfoModalProps } from "../InfoModal";
 import Controls from "./Controls";
 import TopBar from "./TopBar";
 import ScenePanel from "./ScenePanel";
-import { Menu, Map } from "lucide-react";
+import { Grid3x3, MapPin, Image as ImageIcon } from "lucide-react";
 import { Button } from "../ui/button";
-import Minimap from "./Minimap";
 
-// Dynamically import Pannellum to ensure it's only client-side
 const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannellum), {
   ssr: false,
   loading: () => <div className="h-full w-full bg-gray-900 grid place-content-center text-white">Loading 360° Viewer...</div>,
@@ -30,15 +28,12 @@ export const prefetchImage = (src: string) => {
   preloadedImages.add(src);
 };
 
-
 export default function TourViewer() {
   const [currentSceneId, setCurrentSceneId] = useState(tourConfig.scenes[0].id);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [viewerConfig, setViewerConfig] = useState<any | null>(null);
   const [modalInfo, setModalInfo] = useState<Omit<InfoModalProps, 'isOpen' | 'onClose'> | null>(null);
-  const [isAutoRotating, setIsAutoRotating] = useState(false);
-  const [isScenePanelOpen, setIsScenePanelOpen] = useState(false);
-  const [isMinimapOpen, setIsMinimapOpen] = useState(false);
+  const [isScenePanelOpen, setIsScenePanelOpen] = useState(true);
   
   const pannellumRef = useRef<PannellumType>(null);
   const lastHfov = useRef<number | null>(null);
@@ -51,14 +46,10 @@ export default function TourViewer() {
         const viewer = (pannellumRef.current as any).getViewer();
         lastHfov.current = viewer.getHfov();
         viewer.stopAutoRotate();
-        setIsAutoRotating(false);
     }
     
-    // Fade out
     setTimeout(() => {
         setCurrentSceneId(sceneId);
-        setIsScenePanelOpen(false);
-        // Fade in will be handled by the useEffect that watches currentSceneId
     }, 500);
   }, [isTransitioning, currentSceneId]);
 
@@ -82,12 +73,11 @@ export default function TourViewer() {
     pitch: spot.pitch,
     yaw: spot.yaw,
     type: "scene",
-    text: "Enter",
     sceneId: spot.targetSceneId,
     clickHandlerFunc: handleHotspotClick,
     clickHandlerArgs: { sceneId: spot.targetSceneId },
     cssClass: 'pnlm-hotspot-custom',
-    createTooltipFunc: (hotSpotDiv: HTMLElement, args: any) => {
+    createTooltipFunc: (hotSpotDiv: HTMLElement) => {
         const targetScene = tourConfig.scenes.find(s => s.id === spot.targetSceneId);
         if (targetScene) {
             hotSpotDiv.addEventListener('mouseenter', () => prefetchImage(targetScene.src));
@@ -136,122 +126,77 @@ export default function TourViewer() {
     };
     
     setViewerConfig(sceneConfig);
-    // After config is set, allow transitions again
     setTimeout(() => setIsTransitioning(false), 500);
 
   }, [currentScene, createHotspot, createInfoSpot]);
-
-  const handleZoom = (direction: 'in' | 'out') => {
-    if (!pannellumRef.current) return;
-    const viewer = (pannellumRef.current as any).getViewer();
-    const currentHfov = viewer.getHfov();
-    const newHfov = direction === 'in' ? currentHfov - 10 : currentHfov + 10;
-    viewer.setHfov(newHfov);
-  };
-
-  const handleReset = () => {
-    if (!pannellumRef.current) return;
-    const viewer = (pannellumRef.current as any).getViewer();
-    viewer.setPitch(currentScene.initialPitch);
-    viewer.setYaw(currentScene.initialYaw);
-    viewer.setHfov(100);
-  };
-
-  const handleToggleFullscreen = () => {
-    if (!pannellumRef.current) return;
-    (pannellumRef.current as any).getViewer().toggleFullscreen();
-  };
-
-  const handleToggleAutoRotate = () => {
-    if (!pannellumRef.current) return;
-    const viewer = (pannellumRef.current as any).getViewer();
-    if (isAutoRotating) {
-      viewer.stopAutoRotate();
-    } else {
-      viewer.startAutoRotate(-2);
-    }
-    setIsAutoRotating(!isAutoRotating);
-  };
 
   if (!viewerConfig) {
     return <div className="h-full w-full bg-gray-900 grid place-content-center text-white">Loading Scene...</div>;
   }
 
   return (
-    <div className="flex h-full w-full">
-      <ScenePanel
-        scenes={tourConfig.scenes}
-        currentSceneId={currentSceneId}
-        onSceneSelect={switchScene}
-        isOpen={isScenePanelOpen}
-        onClose={() => setIsScenePanelOpen(false)}
-      />
-      <div className="relative h-full w-full flex-1 overflow-hidden">
-          <TopBar brandName="Virtual Tour" sceneTitle={currentScene.title}>
-            <div className="flex items-center gap-2">
-              <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="text-white hover:bg-white/20 hover:text-white lg:hidden"
-                  onClick={() => setIsScenePanelOpen(true)}
-                  aria-label="Open scene list"
-              >
-                  <Menu />
-              </Button>
-              {tourConfig.floorplan && (
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white hover:bg-white/20 hover:text-white"
-                  onClick={() => setIsMinimapOpen(!isMinimapOpen)}
-                  aria-label="Toggle minimap"
-                >
-                  <Map />
-                </Button>
-              )}
-            </div>
-          </TopBar>
-          <div className={`h-full w-full transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-              <Pannellum
-              ref={pannellumRef}
-              width="100%"
-              height="100%"
-              key={currentSceneId} // Force re-render on scene change
-              {...viewerConfig}
-              image={viewerConfig.imageSource} // Pass image prop directly as per pannellum-react docs
-              onLoad={() => {
-                  // Scene is loaded, start fade in
-                  setIsTransitioning(false);
-              }}
-              >
-              </Pannellum>
+    <div className="relative h-full w-full overflow-hidden">
+        <TopBar />
+        
+        <ScenePanel
+          scenes={tourConfig.scenes}
+          currentSceneId={currentSceneId}
+          onSceneSelect={switchScene}
+          isOpen={isScenePanelOpen}
+        />
+        
+        <div className={`h-full w-full transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+            <Pannellum
+            ref={pannellumRef}
+            width="100%"
+            height="100%"
+            key={currentSceneId}
+            {...viewerConfig}
+            image={viewerConfig.imageSource}
+            onLoad={() => {
+                setIsTransitioning(false);
+            }}
+            >
+            </Pannellum>
+        </div>
+        
+        <div className="absolute bottom-4 right-4 z-10">
+          <div className="flex items-center gap-2 rounded-lg bg-gray-900/50 p-1 backdrop-blur-sm">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsScenePanelOpen(prev => !prev)}
+              aria-label="Toggle Scene List"
+              className="text-white hover:bg-white/20 hover:text-white"
+            >
+              <Grid3x3 className="h-5 w-5" />
+            </Button>
+             <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Toggle Map"
+              className="text-white hover:bg-white/20 hover:text-white"
+            >
+              <MapPin className="h-5 w-5" />
+            </Button>
+             <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Toggle Gallery"
+              className="text-white hover:bg-white/20 hover:text-white"
+            >
+              <ImageIcon className="h-5 w-5" />
+            </Button>
           </div>
-          <Controls
-              onZoomIn={() => handleZoom('in')}
-              onZoomOut={() => handleZoom('out')}
-              onReset={handleReset}
-              onToggleFullscreen={handleToggleFullscreen}
-              onToggleAutoRotate={handleToggleAutoRotate}
-              isAutoRotating={isAutoRotating}
+        </div>
+
+      {modalInfo && (
+          <InfoModal 
+            isOpen={!!modalInfo}
+            onClose={() => setModalInfo(null)}
+            {...modalInfo}
           />
-        {tourConfig.floorplan && (
-            <Minimap 
-                floorplanSrc={tourConfig.floorplan}
-                scenes={tourConfig.scenes}
-                currentSceneId={currentSceneId}
-                onSceneSelect={switchScene}
-                isOpen={isMinimapOpen}
-                onClose={() => setIsMinimapOpen(false)}
-            />
-        )}
-        {modalInfo && (
-            <InfoModal 
-              isOpen={!!modalInfo}
-              onClose={() => setModalInfo(null)}
-              {...modalInfo}
-            />
-        )}
-      </div>
+      )}
     </div>
   );
 }
