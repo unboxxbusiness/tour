@@ -1,8 +1,8 @@
-import TourViewer from "@/components/TourViewer";
+import TourViewer from "@/components/viewer/TourViewer";
 
 export default function Home() {
   return (
-    <main className="h-screen w-screen">
+    <main className="h-screen w-screen bg-gray-900 text-white">
       <TourViewer />
     </main>
   );

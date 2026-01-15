@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useMemo, useCallback, useRef, useEffect } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
 import { tourConfig, Hotspot as HotspotType, InfoSpot as InfoSpotType } from "@/lib/tourConfig";
 import type { Pannellum as PannellumType } from "pannellum-react";
-import InfoModal, { InfoModalProps } from "./InfoModal";
-import Controls from "./viewer/Controls";
-import TopBar from "./viewer/TopBar";
+import InfoModal, { InfoModalProps } from "../InfoModal";
+import Controls from "./Controls";
+import TopBar from "./TopBar";
 
 // Dynamically import Pannellum to ensure it's only client-side
 const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannellum), {
