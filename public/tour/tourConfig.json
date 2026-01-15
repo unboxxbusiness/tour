@@ -1,0 +1,82 @@
+{
+  "scenes": [
+    {
+      "id": "gate",
+      "title": "Campus Gate",
+      "src": "https://picsum.photos/seed/gate/2048/1024",
+      "thumb": "https://picsum.photos/seed/gate-thumb/200/100",
+      "initialYaw": 0,
+      "initialPitch": 0,
+      "hotspots": [
+        {
+          "id": "gate-to-library",
+          "pitch": -5,
+          "yaw": 5,
+          "targetSceneId": "library",
+          "label": "To the Library"
+        }
+      ],
+      "infoSpots": [
+        {
+          "id": "gate-info",
+          "pitch": -2,
+          "yaw": 30,
+          "title": "Main Gate",
+          "description": "This is the main entrance to our beautiful campus, established in 1902."
+        }
+      ]
+    },
+    {
+      "id": "library",
+      "title": "Main Library",
+      "src": "https://picsum.photos/seed/library/2048/1024",
+      "thumb": "https://picsum.photos/seed/library-thumb/200/100",
+      "initialYaw": 10,
+      "initialPitch": -5,
+      "hotspots": [
+        {
+          "id": "library-to-gate",
+          "pitch": 0,
+          "yaw": 170,
+          "targetSceneId": "gate",
+          "label": "Back to Gate"
+        },
+        {
+          "id": "library-to-auditorium",
+          "pitch": -10,
+          "yaw": 90,
+          "targetSceneId": "auditorium",
+          "label": "To the Auditorium"
+        }
+      ],
+      "infoSpots": [
+        {
+          "id": "library-info",
+          "pitch": -5,
+          "yaw": 0,
+          "title": "The Grand Library",
+          "description": "Housing over a million volumes, the library is the heart of academic life on campus.",
+          "image": "https://picsum.photos/seed/library-info-image/400/300"
+        }
+      ]
+    },
+    {
+      "id": "auditorium",
+      "title": "Grand Auditorium",
+      "src": "https://picsum.photos/seed/auditorium/2048/1024",
+      "thumb": "https://picsum.photos/seed/auditorium-thumb/200/100",
+      "initialYaw": -20,
+      "initialPitch": -2,
+      "hotspots": [
+        {
+          "id": "auditorium-to-library",
+          "pitch": -5,
+          "yaw": -90,
+          "targetSceneId": "library",
+          "label": "Back to Library"
+        }
+      ],
+      "infoSpots": []
+    }
+  ]
+}

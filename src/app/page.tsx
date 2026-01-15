@@ -1,7 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
+import { tourConfig } from '@/lib/tourConfig';
 
 export default function Home() {
+  // Example of using the validated tour configuration
+  console.log('Loaded Tour Configuration:', tourConfig);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-background p-8">
       <div className="mx-auto w-full max-w-6xl text-center">
@@ -21,6 +25,12 @@ export default function Home() {
           <Button size="lg" variant="outline">
             Learn More
           </Button>
+        </div>
+        <div className="mt-8 text-left">
+          <h2 className="text-2xl font-bold">Tour Scenes Loaded:</h2>
+          <pre className="mt-2 rounded-md bg-muted p-4 text-sm">
+            {JSON.stringify(tourConfig.scenes.map(s => s.title), null, 2)}
+          </pre>
         </div>
       </div>
     </main>
