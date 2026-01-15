@@ -5,11 +5,11 @@ import dynamic from "next/dynamic";
 import { tourConfig, Hotspot as HotspotType, InfoSpot as InfoSpotType } from "@/lib/tourConfig";
 import type { Pannellum as PannellumType } from "pannellum-react";
 import InfoModal, { InfoModalProps } from "../InfoModal";
-import Controls from "./Controls";
 import TopBar from "./TopBar";
 import ScenePanel from "./ScenePanel";
 import { Grid3x3, MapPin, Image as ImageIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import WhatsappIcon from "../icons/WhatsappIcon";
 
 const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannellum), {
   ssr: false,
@@ -160,7 +160,7 @@ export default function TourViewer() {
             </Pannellum>
         </div>
         
-        <div className="absolute bottom-4 right-4 z-10">
+        <div className="absolute bottom-4 right-4 z-10 flex flex-col items-end gap-3">
           <div className="flex items-center gap-2 rounded-lg bg-gray-900/50 p-1 backdrop-blur-sm">
             <Button
               variant="ghost"
@@ -188,6 +188,15 @@ export default function TourViewer() {
               <ImageIcon className="h-5 w-5" />
             </Button>
           </div>
+           <a
+            href="https://wa.me/918851481785?text=I'd%20like%20to%20make%20a%20booking%20request."
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat on WhatsApp"
+            className="grid h-14 w-14 place-items-center rounded-full bg-green-500 text-white shadow-lg transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900/50"
+          >
+            <WhatsappIcon className="h-8 w-8" />
+          </a>
         </div>
 
       {modalInfo && (
