@@ -117,6 +117,32 @@ body {
   background: white;
 }
 
+.pnlm-hotspot-info {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(80, 150, 255, 0.8);
+  border: 2px solid white;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  transition: all 0.2s ease-in-out;
+}
+
+.pnlm-hotspot-info:hover {
+  transform: scale(1.2);
+  background: rgb(80, 150, 255);
+}
+
+.pnlm-hotspot-info::after {
+  content: "i";
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  color: white;
+  font-size: 20px;
+  line-height: 30px;
+  text-align: center;
+  display: block;
+}
+
 .pnlm-tooltip {
     background-color: rgba(0, 0, 0, 0.7);
     color: white;

@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
 import { tourConfig, Hotspot as HotspotType, InfoSpot as InfoSpotType } from "@/lib/tourConfig";
 import type { Pannellum as PannellumType } from "pannellum-react";
+import InfoModal, { InfoModalProps } from "./InfoModal";
 
 // Dynamically import Pannellum to ensure it's only client-side
 const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannellum), {
@@ -14,14 +15,13 @@ const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannel
 const preloadedImages = new Set<string>();
 
 const prefetchImage = (src: string) => {
-  if (!preloadedImages.has(src)) {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = src;
-    document.head.appendChild(link);
-    preloadedImages.add(src);
-  }
+  if (!src || preloadedImages.has(src)) return;
+  const link = document.createElement('link');
+  link.rel = 'preload';
+  link.as = 'image';
+  link.href = src;
+  document.head.appendChild(link);
+  preloadedImages.add(src);
 };
 
 
@@ -29,6 +29,7 @@ export default function TourViewer() {
   const [currentSceneId, setCurrentSceneId] = useState(tourConfig.scenes[0].id);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [viewerConfig, setViewerConfig] = useState<any | null>(null);
+  const [modalInfo, setModalInfo] = useState<Omit<InfoModalProps, 'isOpen' | 'onClose'> | null>(null);
   const pannellumRef = useRef<PannellumType>(null);
   const lastHfov = useRef<number | null>(null);
 
@@ -55,6 +56,14 @@ export default function TourViewer() {
     switchScene(args.sceneId);
   }, [switchScene]);
 
+  const handleInfoSpotClick = useCallback((hotSpotDiv: HTMLElement, args: InfoSpotType) => {
+    setModalInfo({
+        title: args.title,
+        description: args.description,
+        image: args.image,
+    });
+  }, []);
+
   const createHotspot = useCallback((spot: HotspotType) => ({
     pitch: spot.pitch,
     yaw: spot.yaw,
@@ -72,7 +81,25 @@ export default function TourViewer() {
     }
   }), [handleHotspotClick]);
 
+  const createInfoSpot = useCallback((spot: InfoSpotType) => ({
+    pitch: spot.pitch,
+    yaw: spot.yaw,
+    type: 'custom',
+    text: spot.title,
+    clickHandlerFunc: handleInfoSpotClick,
+    clickHandlerArgs: spot,
+    cssClass: 'pnlm-hotspot-info',
+    createTooltipFunc: (hotSpotDiv: HTMLElement) => {
+        if(spot.image) {
+            hotSpotDiv.addEventListener('mouseenter', () => prefetchImage(spot.image));
+        }
+    }
+  }), [handleInfoSpotClick]);
+
   useMemo(() => {
+    const hotspots = currentScene.hotspots.map(createHotspot);
+    const infoSpots = (currentScene.infoSpots || []).map(createInfoSpot);
+
     const sceneConfig: any = {
       ...currentScene,
       imageSource: currentScene.src,
@@ -82,49 +109,43 @@ export default function TourViewer() {
       pitch: currentScene.initialPitch,
       yaw: currentScene.initialYaw,
       sceneFadeDuration: 500,
-      hotSpots: currentScene.hotspots.map(createHotspot),
+      hotSpots: [...hotspots, ...infoSpots],
     };
-
-    if (currentScene.infoSpots) {
-        currentScene.infoSpots.forEach((spot: InfoSpotType) => {
-            sceneConfig.hotSpots.push({
-                pitch: spot.pitch,
-                yaw: spot.yaw,
-                type: 'info',
-                text: spot.title,
-                URL: spot.image ? spot.image : undefined
-            });
-            if (spot.image) {
-                prefetchImage(spot.image);
-            }
-        });
-    }
-
+    
     setViewerConfig(sceneConfig);
     // After config is set, allow transitions again
     setTimeout(() => setIsTransitioning(false), 500);
 
-  }, [currentScene, createHotspot]);
+  }, [currentScene, createHotspot, createInfoSpot]);
 
   if (!viewerConfig) {
     return <div className="h-full w-full bg-gray-900 grid place-content-center text-white">Loading Scene...</div>;
   }
 
   return (
-    <div className={`h-full w-full transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-      <Pannellum
-        ref={pannellumRef}
-        width="100%"
-        height="100%"
-        key={currentSceneId} // Force re-render on scene change
-        {...viewerConfig}
-        image={viewerConfig.imageSource} // Pass image prop directly as per pannellum-react docs
-        onLoad={() => {
-            // Scene is loaded, start fade in
-            setIsTransitioning(false);
-        }}
-      >
-      </Pannellum>
-    </div>
+    <>
+      <div className={`h-full w-full transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+        <Pannellum
+          ref={pannellumRef}
+          width="100%"
+          height="100%"
+          key={currentSceneId} // Force re-render on scene change
+          {...viewerConfig}
+          image={viewerConfig.imageSource} // Pass image prop directly as per pannellum-react docs
+          onLoad={() => {
+              // Scene is loaded, start fade in
+              setIsTransitioning(false);
+          }}
+        >
+        </Pannellum>
+      </div>
+      {modalInfo && (
+          <InfoModal 
+            isOpen={!!modalInfo}
+            onClose={() => setModalInfo(null)}
+            {...modalInfo}
+          />
+      )}
+    </>
   );
 }
