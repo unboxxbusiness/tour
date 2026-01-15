@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { tourConfig, Scene, Hotspot as HotspotType, InfoSpot as InfoSpotType } from "@/lib/tourConfig";
 
 // Dynamically import Pannellum to ensure it's only client-side
-const Pannellum = dynamic(() => import("pannellum-react"), {
+const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannellum), {
   ssr: false,
   loading: () => <div className="h-full w-full bg-gray-900 grid place-content-center text-white">Loading 360° Viewer...</div>,
 });
