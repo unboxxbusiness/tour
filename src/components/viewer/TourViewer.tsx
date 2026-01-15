@@ -82,16 +82,25 @@ export default function TourViewer() {
     pitch: spot.pitch,
     yaw: spot.yaw,
     type: "scene",
-    text: spot.label,
+    text: "Enter",
     sceneId: spot.targetSceneId,
     clickHandlerFunc: handleHotspotClick,
     clickHandlerArgs: { sceneId: spot.targetSceneId },
     cssClass: 'pnlm-hotspot-custom',
-    createTooltipFunc: (hotSpotDiv: HTMLElement) => {
+    createTooltipFunc: (hotSpotDiv: HTMLElement, args: any) => {
         const targetScene = tourConfig.scenes.find(s => s.id === spot.targetSceneId);
         if (targetScene) {
             hotSpotDiv.addEventListener('mouseenter', () => prefetchImage(targetScene.src));
         }
+        
+        const tooltip = document.createElement('div');
+        tooltip.className = 'pnlm-tooltip';
+        
+        const innerSpan = document.createElement('span');
+        innerSpan.innerText = spot.label;
+        tooltip.appendChild(innerSpan);
+        
+        hotSpotDiv.appendChild(tooltip);
     }
   }), [handleHotspotClick]);
 

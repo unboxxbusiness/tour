@@ -117,13 +117,26 @@ body {
 }
 
 .pnlm-hotspot-custom {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.8);
   border: 2px solid white;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   transition: all 0.2s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.pnlm-hotspot-custom::after {
+    content: '⮬';
+    font-size: 24px;
+    color: #333;
+    font-weight: bold;
+    transform: rotate(45deg);
+    line-height: 1;
 }
 
 .pnlm-hotspot-custom:hover {
