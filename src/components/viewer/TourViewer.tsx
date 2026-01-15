@@ -7,6 +7,9 @@ import type { Pannellum as PannellumType } from "pannellum-react";
 import InfoModal, { InfoModalProps } from "../InfoModal";
 import Controls from "./Controls";
 import TopBar from "./TopBar";
+import ScenePanel from "./ScenePanel";
+import { Menu } from "lucide-react";
+import { Button } from "../ui/button";
 
 // Dynamically import Pannellum to ensure it's only client-side
 const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannellum), {
@@ -16,7 +19,7 @@ const Pannellum = dynamic(() => import("pannellum-react").then(mod => mod.Pannel
 
 const preloadedImages = new Set<string>();
 
-const prefetchImage = (src: string) => {
+export const prefetchImage = (src: string) => {
   if (!src || preloadedImages.has(src)) return;
   const link = document.createElement('link');
   link.rel = 'preload';
@@ -33,6 +36,7 @@ export default function TourViewer() {
   const [viewerConfig, setViewerConfig] = useState<any | null>(null);
   const [modalInfo, setModalInfo] = useState<Omit<InfoModalProps, 'isOpen' | 'onClose'> | null>(null);
   const [isAutoRotating, setIsAutoRotating] = useState(false);
+  const [isScenePanelOpen, setIsScenePanelOpen] = useState(false);
   
   const pannellumRef = useRef<PannellumType>(null);
   const lastHfov = useRef<number | null>(null);
@@ -51,6 +55,7 @@ export default function TourViewer() {
     // Fade out
     setTimeout(() => {
         setCurrentSceneId(sceneId);
+        setIsScenePanelOpen(false);
         // Fade in will be handled by the useEffect that watches currentSceneId
     }, 500);
   }, [isTransitioning, currentSceneId]);
@@ -162,38 +167,57 @@ export default function TourViewer() {
   }
 
   return (
-    <div className="relative h-full w-full overflow-hidden">
-        <TopBar brandName="Virtual Tour" sceneTitle={currentScene.title} />
-        <div className={`h-full w-full transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
-            <Pannellum
-            ref={pannellumRef}
-            width="100%"
-            height="100%"
-            key={currentSceneId} // Force re-render on scene change
-            {...viewerConfig}
-            image={viewerConfig.imageSource} // Pass image prop directly as per pannellum-react docs
-            onLoad={() => {
-                // Scene is loaded, start fade in
-                setIsTransitioning(false);
-            }}
+    <div className="flex h-full w-full">
+      <ScenePanel
+        scenes={tourConfig.scenes}
+        currentSceneId={currentSceneId}
+        onSceneSelect={switchScene}
+        isOpen={isScenePanelOpen}
+        onClose={() => setIsScenePanelOpen(false)}
+      />
+      <div className="relative h-full w-full flex-1 overflow-hidden">
+          <TopBar brandName="Virtual Tour" sceneTitle={currentScene.title}>
+            <Button 
+                variant="ghost" 
+                size="icon" 
+                className="text-white hover:bg-white/20 hover:text-white lg:hidden"
+                onClick={() => setIsScenePanelOpen(true)}
+                aria-label="Open scene list"
             >
-            </Pannellum>
-        </div>
-        <Controls
-            onZoomIn={() => handleZoom('in')}
-            onZoomOut={() => handleZoom('out')}
-            onReset={handleReset}
-            onToggleFullscreen={handleToggleFullscreen}
-            onToggleAutoRotate={handleToggleAutoRotate}
-            isAutoRotating={isAutoRotating}
-        />
-      {modalInfo && (
-          <InfoModal 
-            isOpen={!!modalInfo}
-            onClose={() => setModalInfo(null)}
-            {...modalInfo}
+                <Menu />
+            </Button>
+          </TopBar>
+          <div className={`h-full w-full transition-opacity duration-500 ${isTransitioning ? 'opacity-0' : 'opacity-100'}`}>
+              <Pannellum
+              ref={pannellumRef}
+              width="100%"
+              height="100%"
+              key={currentSceneId} // Force re-render on scene change
+              {...viewerConfig}
+              image={viewerConfig.imageSource} // Pass image prop directly as per pannellum-react docs
+              onLoad={() => {
+                  // Scene is loaded, start fade in
+                  setIsTransitioning(false);
+              }}
+              >
+              </Pannellum>
+          </div>
+          <Controls
+              onZoomIn={() => handleZoom('in')}
+              onZoomOut={() => handleZoom('out')}
+              onReset={handleReset}
+              onToggleFullscreen={handleToggleFullscreen}
+              onToggleAutoRotate={handleToggleAutoRotate}
+              isAutoRotating={isAutoRotating}
           />
-      )}
+        {modalInfo && (
+            <InfoModal 
+              isOpen={!!modalInfo}
+              onClose={() => setModalInfo(null)}
+              {...modalInfo}
+            />
+        )}
+      </div>
     </div>
   );
 }
