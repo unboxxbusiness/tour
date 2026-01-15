@@ -179,6 +179,15 @@ export default function TourViewer() {
             >
               <MapPin className="h-5 w-5" />
             </Button>
+             <a
+              href="https://wa.me/918851481785?text=I'd%20like%20to%20make%20a%20booking%20request."
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Chat on WhatsApp"
+              className="grid h-10 w-10 place-items-center rounded-md bg-transparent text-white transition-colors hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900/50"
+            >
+              <WhatsappIcon className="h-5 w-5" />
+            </a>
              <Button
               variant="ghost"
               size="icon"
@@ -188,15 +197,6 @@ export default function TourViewer() {
               <ImageIcon className="h-5 w-5" />
             </Button>
           </div>
-           <a
-            href="https://wa.me/918851481785?text=I'd%20like%20to%20make%20a%20booking%20request."
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Chat on WhatsApp"
-            className="grid h-14 w-14 place-items-center rounded-full bg-green-500 text-white shadow-lg transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900/50"
-          >
-            <WhatsappIcon className="h-8 w-8" />
-          </a>
         </div>
 
       {modalInfo && (
