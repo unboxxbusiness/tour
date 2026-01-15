@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Settings } from "lucide-react";
+import { Building2, ChevronDown, Settings } from "lucide-react";
 import { Button } from "../ui/button";
 
 const navLinks = [
@@ -24,14 +23,9 @@ export default function TopBar() {
   return (
     <div className="absolute top-0 left-0 right-0 z-20 p-4 bg-[#003c8a]">
       <div className="flex justify-between items-center max-w-screen-2xl mx-auto">
-        <div className="flex items-center gap-4">
-          <Image
-            src="/srm-logo.png"
-            alt="SRM Logo"
-            width={150}
-            height={40}
-            className="h-10 w-auto"
-          />
+        <div className="flex items-center gap-2 text-white">
+          <Building2 className="h-8 w-8" />
+          <span className="text-xl font-bold">SRM Virtual Tour</span>
         </div>
         <nav className="hidden lg:flex items-center gap-6">
           {navLinks.map((link) => (
