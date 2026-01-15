@@ -1,86 +1,28 @@
 {
-  "floorplan": "/tour/floorplan.png",
   "scenes": [
     {
-      "id": "gate",
+      "id": "university-gate",
       "title": "University Gate",
-      "src": "/tour/scenes/gate.jpg",
-      "thumb": "/tour/thumbs/gate-thumb.jpg",
+      "src": "https://picsum.photos/seed/1/2048/1024",
+      "thumb": "https://picsum.photos/seed/1/200/100",
       "initialYaw": 0,
       "initialPitch": 0,
-      "sceneMapPosition": { "x": 10, "y": 50 },
-      "hotspots": [
-        {
-          "id": "gate-to-library",
-          "pitch": 0,
-          "yaw": 90,
-          "targetSceneId": "library",
-          "label": "To the Library"
-        }
-      ],
+      "hotspots": [],
       "infoSpots": [
         {
           "id": "gate-info",
-          "pitch": 10,
-          "yaw": -30,
-          "title": "Welcome to the University",
-          "description": "This is the main gate of our historic university, founded in 1888. It serves as the primary entrance for students, faculty, and visitors.",
-          "image": "/tour/infospots/gate-info.jpg"
-        }
-      ]
-    },
-    {
-      "id": "library",
-      "title": "Main Library",
-      "src": "/tour/scenes/library.jpg",
-      "thumb": "/tour/thumbs/library-thumb.jpg",
-      "initialYaw": -90,
-      "initialPitch": 0,
-      "sceneMapPosition": { "x": 45, "y": 30 },
-      "hotspots": [
-        {
-          "id": "library-to-gate",
-          "pitch": 0,
-          "yaw": -170,
-          "targetSceneId": "gate",
-          "label": "Back to the Gate"
-        },
-        {
-          "id": "library-to-auditorium",
-          "pitch": 0,
+          "pitch": -10,
           "yaw": 0,
-          "targetSceneId": "auditorium",
-          "label": "To the Auditorium"
+          "title": "Main Entrance",
+          "description": "This is the main entrance to the university campus, welcoming students, faculty, and visitors.",
+          "image": "https://picsum.photos/seed/info1/400/300"
         }
       ],
-      "infoSpots": [
-        {
-            "id": "library-info",
-            "pitch": 20,
-            "yaw": -90,
-            "title": "The Grand Library",
-            "description": "Our library houses over a million volumes and provides a quiet space for study and research. It features classic architecture and modern amenities."
-        }
-      ]
-    },
-    {
-      "id": "auditorium",
-      "title": "Grand Auditorium",
-      "src": "/tour/scenes/auditorium.jpg",
-      "thumb": "/tour/thumbs/auditorium-thumb.jpg",
-      "initialYaw": 180,
-      "initialPitch": -5,
-      "sceneMapPosition": { "x": 80, "y": 70 },
-      "hotspots": [
-        {
-          "id": "auditorium-to-library",
-          "pitch": 0,
-          "yaw": -90,
-          "targetSceneId": "library",
-          "label": "Back to the Library"
-        }
-      ],
-      "infoSpots": []
+      "sceneMapPosition": {
+        "x": 50,
+        "y": 80
+      }
     }
-  ]
+  ],
+  "floorplan": "https://picsum.photos/seed/floorplan/800/600"
 }
