@@ -21,12 +21,12 @@ const InfoSpotSchema = z.object({
 const SceneSchema = z.object({
   id: z.string(),
   title: z.string(),
-  src: z.string().url(),
-  thumb: z.string().url(),
+  src: z.string(),
+  thumb: z.string(),
   initialYaw: z.number(),
   initialPitch: z.number(),
   hotspots: z.array(HotspotSchema),
-  infoSpots: z.array(InfoSpotSchema),
+  infoSpots: z.array(InfoSpotSchema).optional(),
 });
 
 const TourConfigSchema = z.object({

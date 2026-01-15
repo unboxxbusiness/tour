@@ -1,0 +1,15 @@
+diff --git a/node_modules/pannellum-react/package.json b/node_modules/pannellum-react/package.json
+index 1054964..6a6d373 100644
+--- a/node_modules/pannellum-react/package.json
++++ b/node_modules/pannellum-react/package.json
+@@ -29,7 +29,7 @@
+     "babel-preset-react": "^6.24.1",
+     "babel-preset-stage-0": "^6.24.1"
+   },
+   "peerDependencies": {
+-    "react": "16.x"
++    "react": "16.x || 17.x || 18.x || 19.x"
+   },
+   "dependencies": {
+     "pannellum": "^2.5.6"
+

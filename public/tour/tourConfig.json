@@ -2,75 +2,75 @@
   "scenes": [
     {
       "id": "gate",
-      "title": "Campus Gate",
-      "src": "https://picsum.photos/seed/gate/2048/1024",
-      "thumb": "https://picsum.photos/seed/gate-thumb/200/100",
-      "initialYaw": 0,
-      "initialPitch": 0,
+      "title": "University Gate",
+      "src": "/tour/scenes/gate.jpg",
+      "thumb": "/tour/thumbs/gate.jpg",
+      "initialYaw": -5,
+      "initialPitch": -1,
       "hotspots": [
         {
           "id": "gate-to-library",
-          "pitch": -5,
-          "yaw": 5,
+          "pitch": -2,
+          "yaw": 105,
           "targetSceneId": "library",
-          "label": "To the Library"
+          "label": "Go to Library"
         }
       ],
       "infoSpots": [
         {
           "id": "gate-info",
-          "pitch": -2,
-          "yaw": 30,
-          "title": "Main Gate",
-          "description": "This is the main entrance to our beautiful campus, established in 1902."
+          "pitch": 10,
+          "yaw": -30,
+          "title": "Main Entrance",
+          "description": "This is the main entrance to the university, built in 1902."
         }
       ]
     },
     {
       "id": "library",
       "title": "Main Library",
-      "src": "https://picsum.photos/seed/library/2048/1024",
-      "thumb": "https://picsum.photos/seed/library-thumb/200/100",
+      "src": "/tour/scenes/library.jpg",
+      "thumb": "/tour/thumbs/library.jpg",
       "initialYaw": 10,
       "initialPitch": -5,
       "hotspots": [
         {
           "id": "library-to-gate",
           "pitch": 0,
-          "yaw": 170,
+          "yaw": -160,
           "targetSceneId": "gate",
           "label": "Back to Gate"
         },
         {
           "id": "library-to-auditorium",
-          "pitch": -10,
-          "yaw": 90,
+          "pitch": -5,
+          "yaw": 20,
           "targetSceneId": "auditorium",
-          "label": "To the Auditorium"
+          "label": "Go to Auditorium"
         }
       ],
       "infoSpots": [
         {
           "id": "library-info",
-          "pitch": -5,
-          "yaw": 0,
-          "title": "The Grand Library",
-          "description": "Housing over a million volumes, the library is the heart of academic life on campus.",
-          "image": "https://picsum.photos/seed/library-info-image/400/300"
+          "pitch": 20,
+          "yaw": 90,
+          "title": "Rare Books Collection",
+          "description": "The east wing houses a collection of over 50,000 rare manuscripts.",
+          "image": "/tour/infospots/rare-books.jpg"
         }
       ]
     },
     {
       "id": "auditorium",
       "title": "Grand Auditorium",
-      "src": "https://picsum.photos/seed/auditorium/2048/1024",
-      "thumb": "https://picsum.photos/seed/auditorium-thumb/200/100",
+      "src": "/tour/scenes/auditorium.jpg",
+      "thumb": "/tour/thumbs/auditorium.jpg",
       "initialYaw": -20,
-      "initialPitch": -2,
+      "initialPitch": -10,
       "hotspots": [
         {
           "id": "auditorium-to-library",
-          "pitch": -5,
+          "pitch": -2,
           "yaw": -90,
           "targetSceneId": "library",
           "label": "Back to Library"
